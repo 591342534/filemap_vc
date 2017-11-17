@@ -242,10 +242,10 @@ bool LiteDataBaseWrite::DeInitWrite()
         mHFile = NULL;
     }
 
-    /*if (IsExists(this->mPath.data())) {
+    if (IsExists(this->mPath.data())) {
         DeleteFile(this->mPath.data());
         this->mPath.assign("");
-    }*/
+    }
 
     return true;
 }
@@ -337,9 +337,9 @@ LiteDataBaseRead::~LiteDataBaseRead()
 
 bool LiteDataBaseRead::InitReader(std::string fileMapName, int64_t totalSize, int32_t mapViewSize)
 {
-    mHFileMap = OpenFileMappingA(FILE_MAP_ALL_ACCESS, TRUE, fileMapName.data());
+    mHFileMap = OpenFileMappingA(FILE_MAP_READ, TRUE, fileMapName.data());
     if (NULL == mHFileMap) {
-        printf("open file map error!\n");
+        printf("open file map error! %d\n", GetLastError());
         return false;
     }
 
@@ -396,7 +396,7 @@ bool LiteDataBaseRead::ReadData(LiteData* lite, void* data, int len)
         if (head.size == lite->size &&
             head.offset == lite->offset &&
             memcmp(head.mark, "epro", sizeof(head.mark)) == 0) {
-            memcpy(data, ptr + offset, lite->size);
+            memcpy(data, ptr + offset, lite->size > len ? len : lite->size);
         }
         else {
             printf("»µÊý¾Ý\n");
