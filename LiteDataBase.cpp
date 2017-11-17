@@ -337,7 +337,7 @@ LiteDataBaseRead::~LiteDataBaseRead()
 
 bool LiteDataBaseRead::InitReader(std::string fileMapName, int64_t totalSize, int32_t mapViewSize)
 {
-    mHFileMap = OpenFileMapping(FILE_MAP_ALL_ACCESS, TRUE, fileMapName.data());
+    mHFileMap = OpenFileMappingA(FILE_MAP_ALL_ACCESS, TRUE, fileMapName.data());
     if (NULL == mHFileMap) {
         printf("open file map error!\n");
         return false;
