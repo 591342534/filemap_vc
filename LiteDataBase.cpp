@@ -243,7 +243,7 @@ bool LiteDataBaseWrite::DeInitWrite()
     }
 
     if (IsExists(this->mPath.data())) {
-        DeleteFile(this->mPath.data());
+        DeleteFileA(this->mPath.data());
         this->mPath.assign("");
     }
 
